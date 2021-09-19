@@ -1,6 +1,6 @@
 using System;
 
-namespace HourGlass.API
+namespace MinGlass.API
 {
     public class WeatherForecast
     {
