@@ -10,14 +10,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MinGlass.Repository.Context.Migrations
 {
     [DbContext(typeof(MigrateAppContext))]
-    [Migration("20210921112546_Create_Users_Table")]
+    [Migration("20210929100347_Create_Users_Table")]
     partial class Create_Users_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("minGlass")
+                .HasDefaultSchema("app")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -29,6 +29,7 @@ namespace MinGlass.Repository.Context.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")

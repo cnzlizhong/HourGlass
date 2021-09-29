@@ -8,15 +8,15 @@ namespace MinGlass.Repository.Context.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "minGlass");
+                name: "app");
 
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "minGlass",
+                schema: "app",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false)
@@ -28,7 +28,7 @@ namespace MinGlass.Repository.Context.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
-                schema: "minGlass",
+                schema: "app",
                 table: "Users",
                 column: "Email",
                 unique: true);
@@ -38,7 +38,7 @@ namespace MinGlass.Repository.Context.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Users",
-                schema: "minGlass");
+                schema: "app");
         }
     }
 }

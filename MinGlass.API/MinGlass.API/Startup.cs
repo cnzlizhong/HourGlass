@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,7 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MinGlass.API.Requests;
+using MinGlass.API.UseCases;
+using MinGlass.Repository;
 using MinGlass.Repository.Context;
+using MinGlass.Repository.Interfaces;
+using System.Reflection;
 
 namespace MinGlass.API
 {
@@ -25,7 +31,14 @@ namespace MinGlass.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MigrateAppContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("Admin")));
+            services.AddDbContext<ClientAppContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("User")));
+
             services.AddControllers();
+
+            RegisterRepositories(services);
+
+            services.AddMediatR(GetAssembliesToScan());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MinGlass.API", Version = "v1" });
@@ -52,6 +65,21 @@ namespace MinGlass.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void RegisterRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+        }
+
+        private static Assembly[] GetAssembliesToScan()
+        {
+            return new[]
+            {
+                typeof(Startup).GetTypeInfo().Assembly,
+                typeof(RegisterUserRequest).GetTypeInfo().Assembly,
+                typeof(RegisterUserUseCase).GetTypeInfo().Assembly
+            };
         }
     }
 }

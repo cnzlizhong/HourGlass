@@ -23,7 +23,7 @@ namespace MinGlass.Repository.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.HasDefaultSchema("minGlass");
+            modelBuilder.HasDefaultSchema("app");
 
             modelBuilder.ConfigureUsers();
 
