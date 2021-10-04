@@ -11,6 +11,6 @@ namespace MinGlass.API.Requests
             Data = data;
         }
 
-        public RegisterUserDto Data { get; set; }
+        public RegisterUserDto Data { get; }
     }
 }

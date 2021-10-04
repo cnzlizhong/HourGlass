@@ -1,4 +1,5 @@
-﻿using MinGlass.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MinGlass.Models;
 using MinGlass.Repository.Context;
 using MinGlass.Repository.Interfaces;
 using System;
@@ -24,6 +25,11 @@ namespace MinGlass.Repository
             await SaveChangesAsync();
 
             return user;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await GetQuery().SingleOrDefaultAsync(user => user.Email == email);
         }
     }
 }

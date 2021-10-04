@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MinGlass.API.Middleware;
 using MinGlass.API.Requests;
+using MinGlass.API.services;
 using MinGlass.API.UseCases;
 using MinGlass.Repository;
 using MinGlass.Repository.Context;
@@ -33,6 +35,8 @@ namespace MinGlass.API
             services.AddDbContext<MigrateAppContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("Admin")));
             services.AddDbContext<ClientAppContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("User")));
 
+            services.AddCors();
+
             services.AddControllers();
 
             RegisterRepositories(services);
@@ -50,14 +54,22 @@ namespace MinGlass.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MinGlass.API v1"));
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options
+                .WithOrigins(new[] { "http://localhost:3000" })
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+            );
 
             app.UseAuthorization();
 
@@ -70,6 +82,7 @@ namespace MinGlass.API
         private static void RegisterRepositories(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IJwtService, JwtService>();
         }
 
         private static Assembly[] GetAssembliesToScan()

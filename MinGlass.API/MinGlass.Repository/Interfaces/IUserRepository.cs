@@ -6,5 +6,6 @@ namespace MinGlass.Repository.Interfaces
     public interface IUserRepository
     {
         Task<User> CreateUserAsync(User user);
+        Task<User> GetUserByEmail(string email);
     }
 }
