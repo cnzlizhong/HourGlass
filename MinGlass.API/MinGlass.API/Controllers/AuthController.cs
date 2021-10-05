@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MinGlass.API.Dtos;
 using MinGlass.API.Requests;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,7 @@ namespace MinGlass.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterUserDto data)
         {
             var res = await _mediator.Send(new RegisterUserRequest(data));
@@ -30,21 +33,17 @@ namespace MinGlass.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDto data)
         {
             var jwtToken = await _mediator.Send(new LoginRequest(data));
 
-            Response.Cookies.Append("jwt", jwtToken, new CookieOptions() { HttpOnly = true });
+            dynamic responseObj = new JObject();
+            responseObj.jwtToken = jwtToken;
+            responseObj.tokenType = "Bearer";
 
-            return Ok("Login success");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            Response.Cookies.Delete("jwt");
-
-            return Ok("Log out success");
+            var response = new JsonResult(responseObj);
+            return response;
         }
     }
 }

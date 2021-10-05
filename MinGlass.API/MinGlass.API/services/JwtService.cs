@@ -47,23 +47,5 @@ namespace MinGlass.API.services
 
             return token;
         }
-
-        public JwtSecurityToken Verify(string jwtToken)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SECURITY_KEY);
-
-            handler.ValidateToken(jwtToken, 
-                new TokenValidationParameters() { 
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = ISSUER,
-                    ValidAudience = ISSUER,
-                    RequireExpirationTime = true
-                }, 
-                out SecurityToken validatedToken);
-
-            return (JwtSecurityToken)validatedToken;
-        }
     }
 }

@@ -10,6 +10,5 @@ namespace MinGlass.API.services
     public interface IJwtService
     {
         string GenerateToken(string email, string id, string firstName, string lastName);
-        JwtSecurityToken Verify(string jwtToken);
     }
 }
