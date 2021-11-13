@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 
 const useMountedState = () => {
     const mountedRef = useRef(false);
-    const isMounted = useMemo(() => mountedRef.current, [mountedRef.current]);
+    const isMounted = useCallback(() => {
+        return mountedRef.current;
+    }, []);
 
     useEffect(() => {
         mountedRef.current = true;

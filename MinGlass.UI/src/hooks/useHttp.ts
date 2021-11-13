@@ -10,13 +10,13 @@ const useHttp = () => {
     const { isMounted } = useMountedState();
 
     const onError = (message: string) => {
-        if (!isMounted) return;
+        if (!isMounted()) return;
         setError(message);
         setIsLoading(false);
     };
 
     const onFetched = (data: any, callback: (data: any) => void) => {
-        if (!isMounted) return;
+        if (!isMounted()) return;
         setIsLoading(false);
         callback(data);
     };
