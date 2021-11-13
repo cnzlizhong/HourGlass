@@ -37,7 +37,7 @@ namespace MinGlass.API.services
                 new Claim("lastName", lastName)
             };
 
-            var payload = new JwtPayload(ISSUER, ISSUER, claims, null, DateTime.Today.AddHours(1));
+            var payload = new JwtPayload(ISSUER, ISSUER, claims, null, DateTime.Now.AddHours(1));
 
             var securityToken = new JwtSecurityToken(header, payload);
 

@@ -40,7 +40,7 @@ namespace MinGlass.API.Middleware
             string errorMessage;
             HttpStatusCode statusCode;
 
-            if (exception is MinglassUnauthorizationException)
+            if (exception is MinglassUnauthorizedException)
             {
                 statusCode = HttpStatusCode.Unauthorized;
                 errorMessage = exception.Message;

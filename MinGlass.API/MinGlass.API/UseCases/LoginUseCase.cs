@@ -25,12 +25,12 @@ namespace MinGlass.API.UseCases
         public async Task<string> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             var loginData = request.data;
-            var user = await _userRepository.GetUserByEmail(loginData.Email);
+            var user = await _userRepository.GetUserByEmailAsync(loginData.Email);
             if (user == null)
-                throw new MinglassUnauthorizationException("Invalid credentials");
+                throw new MinglassUnauthorizedException("Invalid credentials");
 
             if (!BCrypt.Net.BCrypt.Verify(loginData.Password, user.Password))
-                throw new MinglassUnauthorizationException("Invalid credentials");
+                throw new MinglassUnauthorizedException("Invalid credentials");
 
             var jwtToken = _jwtService.GenerateToken(user.Email, user.Id.ToString(), user.FirstName, user.LastName);
 

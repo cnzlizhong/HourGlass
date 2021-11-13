@@ -27,9 +27,14 @@ namespace MinGlass.Repository
             return user;
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await GetQuery().SingleOrDefaultAsync(user => user.Email == email);
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid id)
+        {
+            return await GetQuery().SingleOrDefaultAsync(user => user.Id == id);
         }
     }
 }

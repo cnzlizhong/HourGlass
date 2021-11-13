@@ -21,7 +21,7 @@ namespace MinGlass.API.UseCases
         public async Task<Guid> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
         {
             var userData = request.Data;
-            var existingUser = await _userRepository.GetUserByEmail(userData.Email);
+            var existingUser = await _userRepository.GetUserByEmailAsync(userData.Email);
             if (existingUser != null)
                 throw new MinglassException("User with this email already exists");
 

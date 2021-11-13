@@ -42,7 +42,7 @@ namespace MinGlass.API
 
             services.AddControllers().AddNewtonsoftJson();
 
-            RegisterRepositories(services);
+            RegisterServices(services);
 
             services.AddMediatR(GetAssembliesToScan());
 
@@ -107,10 +107,12 @@ namespace MinGlass.API
             });
         }
 
-        private static void RegisterRepositories(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IClaimsService, ClaimsService>();
         }
 
         private static Assembly[] GetAssembliesToScan()

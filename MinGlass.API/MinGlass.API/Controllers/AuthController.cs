@@ -45,5 +45,13 @@ namespace MinGlass.API.Controllers
             var response = new JsonResult(responseObj);
             return response;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            var res = await _mediator.Send(new GetCurrentUserRequest());
+
+            return new JsonResult(res);
+        }
     }
 }
