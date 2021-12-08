@@ -114,7 +114,7 @@ module.exports = (env) => {
                 extensions: ['jsx', 'js'],
             }),
             new Dotenv({
-                path: isEnvDevelopment ? './.env.development' : './.env.production',
+                path: './.env',
             }),
         ],
     };

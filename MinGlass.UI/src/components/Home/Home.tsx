@@ -29,7 +29,6 @@ const Home = () => {
             </div>
             <div className={styles.greeting}>Hello, {user?.firstName}</div>
             <div className={styles.title}>Welcome to MinGlass app!</div>
-            <div>API URL: {process.env.API_URL}</div>
         </>
     );
 

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ui: 
+    build:
+      context: ./MinGlass.UI
+      dockerfile: ui.Dockerfile
+    container_name: minglass-ui
+    depends_on:
+      - api
+    ports:
+      - 3000:3000
+    networks:
+      - frontend
+  api:
+    build:
+      context: ./MinGlass.API
+      dockerfile: api.Dockerfile
+    container_name: minglass-api
+    depends_on:
+      - db
+    ports:
+      - 5000:80
+    networks:
+      - backend
+      - frontend
+  db:
+    build:
+      context: ./postgres/docker
+      dockerfile: db.Dockerfile
+    container_name: postgres-prod
+    restart: unless-stopped
+    ports:
+      - 4321:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  pg-data:
+
+networks:
+  frontend:
+  backend:

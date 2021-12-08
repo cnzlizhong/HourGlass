@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 import { useAuthContext } from '../store/AuthContext';
 import { TOKEN_NAME } from '../constants/AuthConstants';
 import useHttp from './useHttp';
+import { getApiUrl } from '../helpers/UrlHelper';
 
-const apiUrl = process.env.API_URL;
+const apiUrl = getApiUrl();
 const loginUrl = `${apiUrl}/Auth/Login`;
 const loginMethod = 'POST';
 const headers = { 'Content-Type': 'application/json' };

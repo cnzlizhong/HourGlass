@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { useAuthContext } from '../store/AuthContext';
 import useHttp from './useHttp';
+import { getApiUrl } from '../helpers/UrlHelper';
 
-const apiUrl = process.env.API_URL;
+const apiUrl = getApiUrl();
 const getUserUrl = `${apiUrl}/Auth/GetUser`;
 
 const useGetCurrentUser = () => {
