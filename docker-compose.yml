@@ -2,44 +2,22 @@ version: '3.8'
 
 services:
   ui: 
-    build:
-      context: ./MinGlass.UI
-      dockerfile: ui.Dockerfile
+    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-ui
     container_name: minglass-ui
+    ports:
+      - target: 80
+        x-aws-protocol: http
     depends_on:
       - api
-    ports:
-      - 3000:3000
-    networks:
-      - frontend
+
   api:
-    build:
-      context: ./MinGlass.API
-      dockerfile: api.Dockerfile
+    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-api
+    x-aws-protocol: http
     container_name: minglass-api
-    depends_on:
-      - db
+    deploy:
+          resources:
+            limits:
+              cpu: '0.5'
+              memory: 512Mb
     ports:
-      - 5000:80
-    networks:
-      - backend
-      - frontend
-  db:
-    build:
-      context: ./postgres/docker
-      dockerfile: db.Dockerfile
-    container_name: postgres-prod
-    restart: unless-stopped
-    ports:
-      - 4321:5432
-    volumes:
-      - pg-data:/var/lib/postgresql/data
-    networks:
-      - backend
-
-volumes:
-  pg-data:
-
-networks:
-  frontend:
-  backend:
+      - target: 5000

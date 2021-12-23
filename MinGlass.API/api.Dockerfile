@@ -21,5 +21,5 @@ RUN dotnet publish -c Release -o publish
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=build-env /source/publish .
-EXPOSE 80
+EXPOSE 5000
 ENTRYPOINT [ "dotnet", "MinGlass.API.dll" ]
