@@ -2,22 +2,20 @@ version: '3.8'
 
 services:
   ui: 
-    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-ui
+    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-ui:SHAa109663de48809872ee2ea3d896eb4e428d181a8
     container_name: minglass-ui
+    x-aws-protocol: http
     ports:
-      - target: 80
-        x-aws-protocol: http
+      - 80
     depends_on:
       - api
 
   api:
-    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-api
-    x-aws-protocol: http
+    image: 611184995116.dkr.ecr.ap-southeast-2.amazonaws.com/minglass-api:SHA5e1b8717888d32b95367009c89764c5be8fab636
     container_name: minglass-api
-    deploy:
-          resources:
-            limits:
-              cpu: '0.5'
-              memory: 512Mb
-    ports:
-      - target: 5000
+    x-aws-protocol: http
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5'
+    #       memory: 512M
